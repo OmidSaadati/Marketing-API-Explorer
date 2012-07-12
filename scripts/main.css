@@ -1,6 +1,6 @@
 body {
   font-family: "Lucida Sans Unicode";
-  min-width: 1200px;
+  min-width: 1100px;
 }
 
 div .info {
@@ -43,16 +43,16 @@ div.top_banner {
   margin-bottom: 50px;
 }
 #container {
-  padding-left: 500px;
+  padding-left: 450px;
   padding-right: 200px;
 }
 
 .left-div {
   float: left;
   position: relative; 
-  width: 480px;
+  width: 430px;
   padding:0 10px;
-  right: 500px;
+  right: 450px;
   margin-left: -100%;
 }
 

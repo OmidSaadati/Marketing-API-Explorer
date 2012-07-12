@@ -625,6 +625,10 @@ smp.initObjects = function() {
   var size = accounts.length;
   var pages_size = 0;
   var apps_size = 0;
+  if(size > 0) {
+    $('#progress1').show();
+    $('#progress2').show();
+  }
   $.each(accounts, function() {
     var name = this.name;
     var category = this.category;
@@ -653,10 +657,10 @@ smp.initObjects = function() {
       if(size == 0) {
         var pages_show_count = (pages_size < 10? pages_size:10);
         var apps_show_count = (apps_size < 10? apps_size:10);
-        $(page_html).appendTo('#pages');
-        $(app_html).appendTo('#apps');
         $('#progress1').hide();
         $('#progress2').hide();
+        $(page_html).appendTo('#pages');
+        $(app_html).appendTo('#apps');
         $('#app_count').html('showing ' + apps_show_count + ' out of ' + apps_size + ' apps');
         $('#page_count').html('showing ' + pages_show_count + ' out of ' + pages_size + ' pages');
       }
@@ -725,11 +729,13 @@ smp.initAdGroups = function() {
             + '<td>' + creative_id + '</td></tr>');
 
         });
+        $('#progress3').hide();
         if(stats_html != '') {
           $(stats_html).appendTo('#ads');
-          $('#progress3').hide();
           $('#ss_count').text('showing ' + displayedCount + ' out of ' + totalCount + ' ads');
         }
+      } else {
+          $('#progress3').hide();
       }
     });
   });
@@ -766,8 +772,6 @@ smp.initPage = function () {
   // remove table content
   $('.tbody').children().remove();
   // start progress indicators
-  $('#progress1').show();
-  $('#progress2').show();
   $('#progress3').show();
   // read and show users (pages, apps, places) from local cache.
   var accountsString = localStorage.getItem('accounts');
