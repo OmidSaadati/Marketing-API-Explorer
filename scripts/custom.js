@@ -1,7 +1,7 @@
 window.fbAsyncInit = function () {
   FB.init({
-    appId: '6350929420',
-    channelUrl: 'https://www.myfbse.com/smp/channel.html',
+    appId: APP_ID,
+    channelUrl: CHANNEL_URL, 
     status: true,
     cookie: true,
     oauth: true,
