@@ -90,16 +90,16 @@ div.top_banner {
 
 
 input {
-  width: 400;
+  width: 550;
 }
 
 textarea {
-  width: 400;
+  width: 550;
   height: 50;
 }
 
 .area-tall {
-  width: 400;
+  width: 550;
   min-height: 150;
 }
 .big-table {
@@ -107,7 +107,7 @@ textarea {
 }
 
 .mini-table {
-  width: 500px;
+  width: 800px;
 }
 
 .mid-table {

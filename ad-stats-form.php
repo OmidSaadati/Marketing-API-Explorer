@@ -1,7 +1,7 @@
 <div id='ad-stats-dialog' style="display:none">
   <table class='table mini-table'>
     <tr>
-      <td>Adgroup ID, Campaign ID, or Account ID (act_123456)*</td>
+<td>Adgroup ID,<br> Campaign ID,<br> or Account ID (act_123456)*</td>
       <td><input id='entity_id' name='entity_id'></td>
     </tr>
     <tr>
@@ -88,7 +88,7 @@
     </tr>
     <tr>
       <td>cURL Request</td>
-      <td><textarea class='area-tall' id='request' readonly='true'></textarea></td>
+      <td><code><pre><textarea class='area-tall' id='request' readonly='true'></textarea></pre></code></td>
     </tr>
     <tr>
       <td>
@@ -102,7 +102,7 @@
     </tr>
     <tr>
       <td>Response</td>
-      <td><textarea class='area-tall' id='response' readonly='true'></textarea></td>
+      <td><code><pre><textarea class='area-tall' id='response' readonly='true'></textarea></pre></code></td>
     </tr>
   </table>
 </div>

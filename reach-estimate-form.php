@@ -37,7 +37,7 @@
     </tr>
     <tr>
       <td>cURL Request</td>
-      <td><textarea class='area-tall' id='request' readonly='true'></textarea></td>
+      <td><code><pre><textarea class='area-tall' id='request' readonly='true'></textarea></pre></code></td>
     </tr>
     <tr>
       <td>
@@ -51,7 +51,7 @@
     </tr>
     <tr>
       <td>Response</td>
-      <td><textarea class='area-tall' id='response' readonly='true'></textarea></td>
+      <td><code><pre><textarea class='area-tall' id='response' readonly='true'></textarea></pre></code></td>
     </tr>
   </table>
 </div>

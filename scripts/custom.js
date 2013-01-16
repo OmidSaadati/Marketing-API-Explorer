@@ -1,7 +1,7 @@
 window.fbAsyncInit = function () {
   FB.init({
-    appId: APP_ID,
-    channelUrl: CHANNEL_URL, 
+    appId: 'YOUR_APP_ID',
+    channelUrl: 'https://URL_TO_CHANNEL_HTML_FILE', 
     status: true,
     cookie: true,
     oauth: true,
@@ -59,6 +59,8 @@ smp.setupPage = function (){
    $('.content').addClass('hidden');
 }
 
+smp.dialogWidth = 800;
+
 // LOGOUT
 smp.logout = function (){
   FB.logout(function (response) {
@@ -68,6 +70,7 @@ smp.logout = function (){
 // LOGIN
 smp.login = function (){
   FB.login(function (response) {
+    console.log(JSON.stringify(response, undefined, 2));
   }, {scope: 'read_insights,manage_pages,ads_management'}
   );
 };
@@ -97,7 +100,7 @@ smp.callAdApiStatsBase = function(selector) {
       'get',
       smp.requestObject,
       function(response){
-        $(selector + ' #response').val(JSON.stringify(response));
+        $(selector + ' #response').val(JSON.stringify(response, undefined, 2));
         $(selector + ' #progress-indicator').hide();
         }
       );
@@ -122,7 +125,7 @@ smp.callAdApiReach = function() {
       'get',
       params,
       function(response) {
-        $('#reach-dialog #response').val(JSON.stringify(response));
+        $('#reach-dialog #response').val(JSON.stringify(response, undefined, 2));
         $('#progress-reach').hide();
       });
 }
@@ -167,7 +170,7 @@ smp.callAdApiPreview = function() {
              $('#preview-dialog #response').val(response1.data[0].body);
              $('#unit-preview').html(response1.data[0].body);
            } else {
-             $('#preview-dialog #response').val(JSON.stringify(response1));
+             $('#preview-dialog #response').val(JSON.stringify(response1, undefined, 2));
            }
          });
         } else {
@@ -192,7 +195,7 @@ smp.callAdApiAction = function() {
       'get',
       params,
       function (response) {
-        $('#action-dialog #response').val(JSON.stringify(response));
+        $('#action-dialog #response').val(JSON.stringify(response, undefined, 2));
         $('#progress-action').hide();
       });
 }
@@ -206,7 +209,7 @@ smp.callAdApiEdit = function() {
       'post',
       smp.requestObject,
       function(response) {
-        $('#ad-edit-dialog #response').val(JSON.stringify(response));
+        $('#ad-edit-dialog #response').val(JSON.stringify(response, undefined, 2));
         $('#progress-ad-edit').hide();
         if(response && !response.error) {
           var adgroup = response.data.adgroups[adgroup_id];
@@ -226,7 +229,7 @@ smp.callAdApi = function() {
       'post',
       smp.requestObject,
       function(response) {
-        $('#ad-dialog #response').val(JSON.stringify(response));
+        $('#ad-dialog #response').val(JSON.stringify(response, undefined, 2));
         $('#progress-ad-create').hide();
         if(response && !response.error) {
           var adgroup= response.data.adgroups[response.id];
@@ -387,28 +390,23 @@ smp.updateRequest = function(selector, setExtra, getURI, method) {
 
   var curl_param = "";
   if(method == 'get') {
-    var count = 0;
     for(var param in smp.requestObject) {
-      if(count == 0)
-        curl_param += param + "=" + smp.requestObject[param]; 
-      else
-        curl_param += "&" + param + "=" + smp.requestObject[param]; 
-      count++;
+      curl_param += "\\\n-d '" + param + "=" + smp.requestObject[param] + "' ";
     }
+    curl_param += "\\\n-d 'access_token=" + smp.accessToken + "' ";
   } else{
     for(var param in smp.requestObject) {
-      curl_param += "-F '" + param + "=" + smp.requestObject[param] + "' ";
+      curl_param += "\\\n-F '" + param + "=" + smp.requestObject[param] + "' ";
     }
+    curl_param += "\\\n-F 'access_token=" + smp.accessToken + "' ";
   }
 
   if(method == 'get'){
-    curl_param = "curl -G -d '" + curl_param 
-      + (curl_param? "&" : "") + "access_token=" + smp.accessToken  + "' "
-      + "'https://graph.facebook.com/" + getURI() + "'";
+    curl_param = "curl -G " + curl_param 
+      + "\\\n'https://graph.facebook.com/" + getURI() + "'";
   } else{
     curl_param = "curl " + curl_param
-      + "'https://graph.facebook.com/" + getURI()
-      + "?access_token=" + smp.accessToken + "'";
+      + "\\\n'https://graph.facebook.com/" + getURI() + "'";
   }
 
   $(selector + ' #request').text(curl_param);
@@ -488,8 +486,8 @@ smp.generateCrvDialog = function() {
 
 smp.generateCreateDialog = function() {
   return function(event, ui){
-         smp.generateDialog('#ad-dialog')(event, ui);
-         $('#ad-dialog #account_id').change();
+    smp.generateDialog('#ad-dialog')(event, ui);
+    $('#ad-dialog #account_id').change();
   }
 }
 
@@ -527,7 +525,7 @@ smp.generateStats = function() {
   $('#ad-stats-dialog').dialog(
       {modal:true,
        title: 'Ad Stats',
-       width: 550,
+       width: smp.dialogWidth,
        open: initDialog
       }
    );
@@ -539,7 +537,7 @@ smp.generateCrv = function() {
   $('#ad-crv-dialog').dialog(
       {modal:true,
        title: 'Ad Conversions',
-       width: 550,
+       width: smp.dialogWidth,
        open: initDialog
       }
   );
@@ -550,7 +548,7 @@ smp.generatePreview = function() {
   $('#preview-dialog').dialog(
       {modal:true,
       title:'Sponsored Stories Preview',
-      width: 550,
+      width: smp.dialogWidth,
       open: smp.generatePreviewDialog
   });
 }
@@ -559,7 +557,7 @@ smp.generateReach = function() {
   $('#reach-dialog').dialog(
       {modal:true,
        title:'Reach Estimates',
-       width: 550,
+       width: smp.dialogWidth,
        open: smp.generateReachDialog
      }
   );
@@ -569,7 +567,7 @@ smp.generateAction = function() {
   $('#action-dialog').dialog(
       {modal:true,
        title:'Action Estimates',
-       width: 550,
+       width: smp.dialogWidth,
        open: smp.generateActionDialog
    });
 }
@@ -579,7 +577,7 @@ smp.generateEdit = function(){
     $('#ad-edit-dialog').dialog(
         {modal:true,
          title: 'Edit an AdGroup',
-         width: 550,
+         width: smp.dialogWidth,
          open: initDialog
          }
         );
@@ -595,7 +593,7 @@ smp.createAd = function(){
     $('#ad-dialog').dialog(
       {modal: true,
        title: 'Create an Ad',
-       width: 550,
+       width: smp.dialogWidth,
        open: initDialog
      });
   }
